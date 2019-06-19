@@ -1,14 +1,16 @@
 #![deny(warnings)]
+#![deny(clippy::all)]
 
 extern crate proc_macro;
-#[macro_use]
-extern crate quote;
-//extern crate rustorm_dao as dao;
-extern crate rustorm_dao;
+#[macro_use] extern crate quote;
+extern crate wuta_dao;
 extern crate syn;
 
+#[macro_use]
 mod column_derive;
+#[macro_use]
 mod dao_derive;
+#[macro_use]
 mod table_derive;
 
 use proc_macro::TokenStream;

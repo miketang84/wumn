@@ -20,12 +20,12 @@ pub fn impl_from_dao(ast: &syn::MacroInput) -> quote::Tokens {
     let from_fields: Vec<quote::Tokens> = fields
         .iter()
         .map(|&(field, _ty)| {
-            quote!{ #field: dao.get(stringify!(#field)).unwrap(),}
+            quote! { #field: dao.get(stringify!(#field)).unwrap(),}
         })
         .collect();
 
     quote! {
-        impl FromDao for  #name {
+        impl wuta_dao::FromDao for  #name {
 
             fn from_dao(dao: &rustorm_dao::Dao) -> Self {
                 #name {
@@ -56,12 +56,12 @@ pub fn impl_to_dao(ast: &syn::MacroInput) -> quote::Tokens {
     let from_fields: &Vec<quote::Tokens> = &fields
         .iter()
         .map(|&(field, _ty)| {
-            quote!{ dao.insert(stringify!(#field), &self.#field);}
+            quote! { dao.insert(stringify!(#field), &self.#field);}
         })
         .collect();
 
     quote! {
-        impl ToDao for  #name {
+        impl wuta_dao::ToDao for  #name {
 
             fn to_dao(&self) -> rustorm_dao::Dao {
                 let mut dao = rustorm_dao::Dao::new();
