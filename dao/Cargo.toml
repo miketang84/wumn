@@ -1,0 +1,20 @@
+[package]
+name = "wuta_dao"
+version = "0.1.0"
+authors = [ "Mike Tang <daogangtang.gmail.com>", "Jovansonlee Cesar <ivanceras@gmail.com>" ]
+license = "MIT"
+description = "Dao provides a flexible way to access data from the database"
+repository = "https://github.com/daogangtang/wuta"
+documentation = "https://docs.rs/wuta"
+keywords = ["orm", "postgresql", "sqlite"]
+edition = "2018"
+
+
+[dependencies]
+chrono = {version = "0.4", features = ["serde"]}
+uuid = {version = "0.7", features = ["serde", "v4"]}
+serde = {version = "1.0", features = ["derive"]}
+serde_json = "1.0"
+bigdecimal = {version = "0.1", features = ["serde"]}
+geo = "0.4"
+time = "0.1"
