@@ -1,8 +1,7 @@
 //! 
-//! Rustorm is an SQL-centered ORM with focus on ease of use on conversion of database types to
-//! their appropriate rust type.
+//! Wuta is a thin abstract ORM over SQL and Rust types.
 //!
-//! Selecting records
+//! ### Selecting records
 //!
 //! ```rust
 //! #[macro_use]
@@ -37,7 +36,7 @@
 //!     }
 //! }
 //! ```
-//! Inserting and displaying the inserted records
+//! ### Inserting and displaying the inserted records
 //!
 //! ```rust
 //! #[macro_use]
@@ -103,7 +102,6 @@
 //!       assert_eq!(today, actors[1].last_update.date());
 //!   }
 //! ```
-//! Rustorm is wholly used by [diwata](https://github.com/ivanceras/diwata)
 //!
 #![feature(external_doc)]
 #![deny(warnings)]
@@ -142,11 +140,6 @@ cfg_if! {if #[cfg(feature = "with-postgres")]{
     extern crate postgres_shared;
     mod pg;
 }}
-cfg_if! {if #[cfg(feature = "with-sqlite")]{
-    // extern crate r2d2_sqlite3;
-    extern crate sqlite3;
-    mod sq;
-}}
 
 pub mod column;
 pub mod common;
@@ -154,7 +147,6 @@ mod database;
 mod entity;
 pub mod error;
 mod platform;
-// pub mod pool;
 mod dbmanager;
 mod dao_manager;
 pub mod table;
@@ -173,7 +165,6 @@ pub use dao::{FromDao, ToDao};
 pub use database::Database;
 pub use entity::EntityManager;
 pub use error::DbError;
-// pub use pool::Pool;
 pub use dbmanager::DbManager;
 pub use dao::Dao;
 pub use dao_manager::DaoManager;

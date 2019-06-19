@@ -4,7 +4,6 @@ use error::{ConnectError};
 use platform::DBPlatform;
 use platform::Platform;
 use dao_manager::DaoManager;
-// use std::collections::BTreeMap;
 use std::convert::TryFrom;
 
 cfg_if! {if #[cfg(feature = "with-postgres")]{
