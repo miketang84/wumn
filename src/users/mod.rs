@@ -2,7 +2,7 @@ use chrono::{
     DateTime,
     Utc,
 };
-use rustorm_codegen::FromDao;
+use wuta_codegen::FromDao;
 use serde::{
     Deserialize,
     Serialize,

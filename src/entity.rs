@@ -14,7 +14,7 @@ use crate::{
     Value,
 };
 use log::*;
-use rustorm_dao::{
+use wuta_dao::{
     FromDao,
     TableName,
     ToColumnNames,
@@ -363,7 +363,7 @@ impl EntityManager {
 #[cfg(test)]
 #[cfg(feature = "with-postgres")]
 mod test_pg {
-    extern crate rustorm_dao as dao;
+    extern crate wuta_dao as dao;
     use super::*;
     use chrono::offset::Utc;
     use chrono::{DateTime, NaiveDate};
