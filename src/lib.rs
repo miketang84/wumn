@@ -5,16 +5,7 @@
 //!
 //! ```rust
 //! #[macro_use]
-//! extern crate rustorm_codegen;
-//! extern crate rustorm_dao as dao;
-//! extern crate rustorm_dao;
-//! extern crate rustorm;
-//! use rustorm::TableName;
-//! use rustorm_dao::ToColumnNames;
-//! use rustorm_dao::ToTableName;
-//! use rustorm_dao::{FromDao, ToDao};
-//! use rustorm::Pool;
-//! use rustorm::DbError;
+//! use wuta::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
 //! 
 //! #[derive(Debug, FromDao, ToColumnNames, ToTableName)]
 //! struct Actor {
@@ -23,9 +14,9 @@
 //! }
 //! 
 //! fn main(){
-//!     let db_url = "postgres://postgres:p0stgr3s@localhost/sakila";
-//!     let mut pool = Pool::new();
-//!     let em = pool.em(db_url).unwrap();
+//!     let db_url = "postgres://postgres:p0stgr3s@localhost/wutang";
+//!     let mut dbm = DbManager::new();
+//!     let em = dbm.em(db_url).unwrap();
 //!     let sql = "SELECT * FROM actor LIMIT 10";
 //!     let actors: Result<Vec<Actor>, DbError> = em.execute_sql_with_return(sql, &[]);
 //!     info!("Actor: {:#?}", actors);
@@ -39,21 +30,8 @@
 //! ### Inserting and displaying the inserted records
 //!
 //! ```rust
-//! #[macro_use]
-//! extern crate rustorm_codegen;
-//! extern crate rustorm_dao as dao;
-//! extern crate rustorm_dao;
-//! extern crate rustorm;
-//! extern crate chrono;
-//!
-//! use rustorm::TableName;
-//! use rustorm_dao::ToColumnNames;
-//! use rustorm_dao::ToTableName;
-//! use rustorm_dao::{FromDao, ToDao};
-//! use rustorm::Pool;
-//! use rustorm::DbError;
-//! use chrono::offset::Utc;
-//! use chrono::{DateTime, NaiveDate};
+//! use wuta::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
+//! use chrono::{offset::Utc, DateTime, NaiveDate};
 //!
 //!   fn main() {
 //!       mod for_insert {
@@ -76,9 +54,9 @@
 //!           }
 //!       }
 //!
-//!       let db_url = "postgres://postgres:p0stgr3s@localhost/sakila";
-//!       let mut pool = Pool::new();
-//!       let em = pool.em(db_url).unwrap();
+//!       let db_url = "postgres://postgres:p0stgr3s@localhost/wutang";
+//!       let mut dbm = DbManager::new();
+//!       let em = dbm.em(db_url).unwrap();
 //!       let tom_cruise = for_insert::Actor {
 //!           first_name: "TOM".into(),
 //!           last_name: "CRUISE".to_string(),
@@ -103,105 +81,80 @@
 //!   }
 //! ```
 //!
-#![feature(external_doc)]
-#![deny(warnings)]
-#![allow(dead_code)]
-#![feature(try_from)]
-extern crate base64;
-extern crate bigdecimal;
-extern crate byteorder;
-#[macro_use]
-extern crate cfg_if;
-extern crate chrono;
-extern crate num_bigint;
-extern crate num_integer;
-extern crate num_traits;
-// extern crate r2d2;
-#[macro_use]
-extern crate rustorm_codegen;
-extern crate rustorm_dao as dao;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate geo;
-extern crate serde_json;
-extern crate time;
-extern crate tree_magic;
-extern crate url;
-extern crate uuid;
-#[macro_use]
-extern crate log;
+
+use cfg_if::cfg_if;
 
 cfg_if! {if #[cfg(feature = "with-postgres")]{
-    // extern crate r2d2_postgres;
-    extern crate openssl;
-    extern crate postgres;
-    #[macro_use]
-    extern crate postgres_shared;
-    mod pg;
+extern crate openssl;
+extern crate postgres;
+#[macro_use]
+extern crate postgres_shared;
+mod pg;
 }}
 
-pub mod column;
 pub mod common;
+pub mod column;
+mod dao_manager;
+mod db_manager;
 mod database;
 mod entity;
-pub mod error;
 mod platform;
-mod dbmanager;
-mod dao_manager;
+mod users;
+pub mod error;
 pub mod table;
 pub mod types;
-mod util;
-mod users;
+pub mod util;
 
 pub use column::Column;
-pub use dao::ColumnName;
-pub use dao::Rows;
-pub use dao::TableName;
-pub use dao::ToColumnNames;
-pub use dao::ToTableName;
-pub use dao::Value;
-pub use dao::{FromDao, ToDao};
-pub use database::Database;
-pub use entity::EntityManager;
-pub use error::DbError;
-pub use dbmanager::DbManager;
-pub use dao::Dao;
 pub use dao_manager::DaoManager;
+pub use db_manager::DbManager;
+pub use database::{
+    Database,
+    DatabaseName,
+};
+pub use entity::EntityManager;
+pub use error::{
+    DataError,
+    DbError,
+    PlatformError,
+};
 pub use table::Table;
-pub use database::DatabaseName;
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    use dao::{Dao, FromDao, ToDao};
+// we export the traits that has a derived proc macro
+// this are used in the apps
+pub use codegen::{
+    FromDao,
+    ToColumnNames,
+    ToDao,
+    ToTableName,
+};
 
-    #[test]
-    fn derive_fromdao_and_todao() {
-        #[derive(Debug, PartialEq, FromDao, ToDao)]
-        struct User {
-            id: i32,
-            username: String,
-            active: Option<bool>,
-        }
+pub use wuta_dao::{
+    ColumnName,
+    Dao,
+    Rows,
+    TableName,
+    ToValue,
+    Value,
+    Array,
+};
 
-        let user = User {
-            id: 1,
-            username: "ivanceras".into(),
-            active: Some(true),
-        };
-        info!("user: {:#?}", user);
-        let dao = user.to_dao();
-        let mut expected_dao = Dao::new();
-        expected_dao.insert("id", 1);
-        expected_dao.insert("username", "ivanceras".to_string());
-        expected_dao.insert("active", true);
+/// Wrap the wuta_dao exports to avoid name conflict with the wuta_codegen
+pub mod dao {
+    pub use wuta_dao::{
+        FromDao,
+        ToColumnNames,
+        ToDao,
+        ToTableName,
+    };
+}
 
-        assert_eq!(expected_dao, dao);
-
-        info!("dao: {:#?}", dao);
-        let from_dao = User::from_dao(&dao);
-        info!("from_dao: {:#?}", from_dao);
-        assert_eq!(from_dao, user);
-    }
+/// Wrap the wuta_codegen exports to avoid name conflict with the wuta_dao
+pub mod codegen {
+    pub use wuta_codegen::{
+        FromDao,
+        ToColumnNames,
+        ToDao,
+        ToTableName,
+    };
 }

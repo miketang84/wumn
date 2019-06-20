@@ -1,7 +1,13 @@
 use uuid::Uuid;
 use log::*;
 use wuta_dao;
-use crate::column::{Capacity, ColumnConstraint, ColumnSpecification, ColumnStat, Literal};
+use crate::column::{
+	Capacity, 
+	ColumnConstraint, 
+	ColumnSpecification, 
+	ColumnStat, 
+	Literal
+};
 use crate::{
 	util,
 	common,
@@ -11,12 +17,13 @@ use crate::{
 	TableName,
 	EntityManager,
 	DbError,
+        FromDao,
 };
 
 /// get all the columns of the table
 pub fn get_columns(em: &EntityManager, table_name: &TableName) -> Result<Vec<Column>, DbError> {
     /// column name and comment
-    #[derive(Debug, crate::codegen::FromDao)]
+    #[derive(Debug, FromDao)]
     struct ColumnSimple {
         number: i32,
         name: String,
@@ -97,7 +104,7 @@ fn get_column_specification(
     column_name: &str,
 ) -> Result<ColumnSpecification, DbError> {
     /// null, datatype default value
-    #[derive(Debug, crate::codegen::FromDao)]
+    #[derive(Debug, FromDao)]
     struct ColumnConstraintSimple {
         not_null: bool,
         data_type: String,

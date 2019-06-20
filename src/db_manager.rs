@@ -1,13 +1,13 @@
-use entity::EntityManager;
-use error::DbError;
-use error::{ConnectError};
-use platform::DBPlatform;
-use platform::Platform;
-use dao_manager::DaoManager;
+use cfg_if::cfg_if;
+use log::*;
 use std::convert::TryFrom;
+use crate::entity::EntityManager;
+use crate::error::{DbError, ConnectError};
+use crate::platform::{Platform, DBPlatform};
+use crate::dao_manager::DaoManager;
 
 cfg_if! {if #[cfg(feature = "with-postgres")]{
-    use pg::{self, PostgresDB};
+    use crate::pg::{self, PostgresDB};
 }}
 
 
@@ -27,7 +27,7 @@ impl DbManager {
                 #[cfg(feature = "with-postgres")]
                 Platform::Postgres => {
                     let conn = pg::init_connection(db_url);
-                    Ok(DBPlatform::Postgres(PostgresDB(conn)))
+                    Ok(DBPlatform::Postgres(Box::new(PostgresDB(conn))))
                 },
                 Platform::Unsupported(scheme) => {
                     info!("unsupported");

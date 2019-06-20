@@ -1,9 +1,9 @@
+use cfg_if::cfg_if;
 use crate::{
     error::ParseError,
     Database,
 };
-use cfg_if::cfg_if;
-use log::*;
+//use log::*;
 use std::{
     convert::TryFrom,
     ops::Deref,
@@ -16,7 +16,8 @@ cfg_if! {if #[cfg(feature = "with-postgres")]{
 
 pub enum DBPlatform {
     #[cfg(feature = "with-postgres")]
-    Postgres(PostgresDB),
+    //Postgres(PostgresDB),
+    Postgres(Box<PostgresDB>),
 }
 
 impl Deref for DBPlatform {

@@ -1,35 +1,39 @@
-use self::interval::PgInterval;
-use self::numeric::PgNumeric;
+use std::error::Error;
+use std::fmt;
+use std::string::FromUtf8Error;
+use log::*;
 use base64;
 use bigdecimal::BigDecimal;
-use wuta_dao::value::Array;
-use wuta_dao::Interval;
-use wuta_dao::Rows;
-use crate::TableName;
-use crate::Value;
-use crate::Database;
-use crate::EntityManager;
-use crate::DbError;
-use crate::error::PlatformError;
+use wuta_dao::{
+    value::Array,
+    Interval,
+    Rows
+};
 use geo::Point;
-use openssl::ssl::{SslConnectorBuilder, SslMethod};
+//use openssl::ssl::{SslConnectorBuilder, SslMethod};
 use postgres;
-use postgres::tls::openssl::OpenSsl;
+use postgres::{Connection, TlsMode};
+//use postgres::tls::openssl::OpenSsl;
 use postgres::types::{self, FromSql, IsNull, ToSql, Type};
 use postgres_shared::types::Kind;
 use postgres_shared::types::Kind::Enum;
 use serde_json;
-use std::error::Error;
-use std::fmt;
-use std::string::FromUtf8Error;
-use crate::table::SchemaContent;
-use crate::Table;
 use tree_magic;
-use crate::users::User;
-use crate::database::DatabaseName;
-use crate::users::Role;
-use crate::*;
-use log::*;
+use crate::{
+    TableName,
+    Value,
+    Database,
+    DatabaseName,
+    EntityManager,
+    DbError,
+    PlatformError,
+    table::SchemaContent,
+    Table,
+    users::{User, Role},
+};
+//use crate::*;
+use self::interval::PgInterval;
+use self::numeric::PgNumeric;
 
 mod column_info;
 #[allow(unused)]
@@ -44,15 +48,15 @@ pub fn init_connection(db_url: &str) -> Connection {
     conn
 }
 
-#[allow(unused)]
-fn get_tls() -> TlsMode {
-    let mut builder = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
-    builder
-        .set_ca_file("/etc/ssl/certs/ca-certificates.crt")
-        .unwrap();
-    let negotiator = OpenSsl::from(builder.build());
-    TlsMode::Require(Box::new(negotiator))
-}
+//#[allow(unused)]
+//fn get_tls() -> TlsMode {
+//    let mut builder = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
+//    builder
+//        .set_ca_file("/etc/ssl/certs/ca-certificates.crt")
+//        .unwrap();
+//    let negotiator = OpenSsl::from(builder.build());
+//    TlsMode::Require(Box::new(negotiator))
+//}
 
 pub struct PostgresDB(pub postgres::Connection);
 
@@ -389,14 +393,7 @@ impl From<postgres::Error> for PostgresError {
     }
 }
 
-impl Error for PostgresError {
-    fn description(&self) -> &str {
-        "postgres error"
-    }
-}
-
-impl Error for PostgresError {
-}
+impl Error for PostgresError {}
 
 impl fmt::Display for PostgresError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

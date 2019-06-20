@@ -259,7 +259,7 @@ impl EntityManager {
 
         let mut values: Vec<Value> = Vec::with_capacity(entities.len() * columns.len());
         for entity in entities {
-            let mut dao = entity.to_dao();
+            let dao = entity.to_dao();
             for col in columns.iter() {
                 let value = dao.get_value(&col.name);
                 match value {

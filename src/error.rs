@@ -1,5 +1,5 @@
 use cfg_if::cfg_if;
-//use r2d2;
+
 use std::{
     error::Error,
     fmt,
@@ -10,17 +10,11 @@ cfg_if! {if #[cfg(feature = "with-postgres")]{
     use crate::pg::PostgresError;
 }}
 
-cfg_if! {if #[cfg(feature = "with-sqlite")]{
-    use crate::sq::SqliteError;
-    use rusqlite;
-}}
-
 #[derive(Debug)]
 pub enum ConnectError {
     NoSuchPoolConnection,
     ParseError(ParseError),
     UnsupportedDb(String),
-    // R2d2Error(r2d2::Error),
 }
 
 impl Error for ConnectError {}
@@ -86,6 +80,7 @@ pub enum DbError {
     PlatformError(PlatformError),
     ConvertError(ConvertError),
     ConnectError(ConnectError), //agnostic connection error
+    UnsupportedOperation(String),
 }
 
 impl From<PlatformError> for DbError {

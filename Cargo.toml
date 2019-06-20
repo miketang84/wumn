@@ -1,9 +1,50 @@
 [package]
 name = "wuta"
 version = "0.1.0"
-authors = ["Mike Tang <daogangtang@gmail.com>"]
+authors = ["Jovansonlee Cesar <ivanceras@gmail.com>", "Mike Tang <daogangtang@gmail.com>"]
+license = "MIT"
+description = "A thin abstract ORM over SQL and Rust types."
+repository = "https://github.com/daogangtang/wuta"
+documentation = "https://docs.rs/wuta"
+readme = "README.md"
+keywords = ["orm", "postgresql"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+log = "0.4"
+postgres = {version = "0.15.1",features = ["with-uuid","with-chrono","with-time","with-openssl","with-geo","with-bit-vec", "with-serde_json"], optional = true}
+postgres-shared = {version = "0.4.0", optional = true}
+openssl = {version = "0.9.23", optional = true}
+url = "1.5"
+cfg-if = "0.1.2"
+uuid = "0.5"
+#uuid = {version = "0.7", features = ["serde", "v4"]}
+chrono = "0.4.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+byteorder = "1.0"
+bigdecimal = "0.1"
+num-bigint = "0.2"
+num-traits = "0.2"
+num-integer = "0.1"
+meval = "0.1.0"
+tree_magic = "0.2"
+base64 = "0.9"
+geo = "0.4"
+time = "0.1"
+
+[dependencies.wuta_dao]
+path = "dao"
+
+[dependencies.wuta_codegen]
+path = "codegen"
+
+[features]
+default = ["with-postgres"]
+with-postgres = ["postgres", "postgres-shared", "openssl"]
+
+[package.metadata.docs.rs]
+features = ["with-postgres"]
+
+#[badges]
+#travis-ci = { repository = "daogangtang/wuta" }

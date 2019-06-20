@@ -1,14 +1,16 @@
 //! module table_info extract the table meta data using SQL queries on pg_catalog.
 //! This is not using information_schema since there is a performance issue with it.
-use crate::Column;
-use crate::ColumnName;
-use crate::FromDao;
-use crate::TableName;
-use crate::EntityManager;
-use crate::DbError;
-use crate::pg::column_info;
-use crate::table::{self, Key, ForeignKey, SchemaContent, Table, TableKey};
 use log::*;
+use crate::{
+    Column,
+    ColumnName,
+    FromDao,
+    TableName,
+    EntityManager,
+    DbError,
+    pg::column_info,
+    table::{self, Key, ForeignKey, SchemaContent, Table, TableKey},
+};
 
 /// get all database tables and views except from special schema
 pub fn get_all_tables(em: &EntityManager) -> Result<Vec<Table>, DbError> {
