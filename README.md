@@ -1,6 +1,6 @@
 ## Wuta
 
-Wuta is a thin abstract ORM over SQL and Rust types. 
+Wumn is a thin abstract ORM over SQL and Rust types. 
 
 
 ### Referrence
