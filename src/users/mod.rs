@@ -2,7 +2,7 @@ use chrono::{
     DateTime,
     Utc,
 };
-use wuta_codegen::FromDao;
+use wumn_codegen::FromDao;
 use serde::{
     Deserialize,
     Serialize,

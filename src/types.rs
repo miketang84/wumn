@@ -1,4 +1,4 @@
-use wuta_dao::{
+use wumn_dao::{
     value::Array,
     Value,
 };

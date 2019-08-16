@@ -4,7 +4,7 @@ use std::string::FromUtf8Error;
 use log::*;
 use base64;
 use bigdecimal::BigDecimal;
-use wuta_dao::{
+use wumn_dao::{
     value::Array,
     Interval,
     Rows

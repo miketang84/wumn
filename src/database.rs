@@ -13,7 +13,7 @@ use crate::{
 use serde::Serialize;
 
 use crate::DbError;
-use wuta_codegen::FromDao;
+use wumn_codegen::FromDao;
 
 /// The current database name and its comment
 #[derive(Serialize, FromDao)]

@@ -3,8 +3,6 @@
 
 extern crate proc_macro;
 #[macro_use] extern crate quote;
-//extern crate syn;
-//extern crate wuta_dao;
 
 #[macro_use]
 mod column_derive;

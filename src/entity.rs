@@ -14,7 +14,7 @@ use crate::{
     Value,
 };
 use log::*;
-use wuta_dao::{
+use wumn_dao::{
     FromDao,
     TableName,
     ToColumnNames,
@@ -363,7 +363,7 @@ impl EntityManager {
 #[cfg(test)]
 #[cfg(feature = "with-postgres")]
 mod test_pg {
-    extern crate wuta_dao as dao;
+    extern crate wumn_dao as dao;
     use super::*;
     use chrono::offset::Utc;
     use chrono::{DateTime, NaiveDate};

@@ -1,11 +1,11 @@
 [package]
-name = "wuta_codegen"
+name = "wumn_codegen"
 version = "0.1.0"
 authors = [ "Mike Tang <daogangtang@gmail.com>" , "Jovansonlee Cesar <ivanceras@gmail.com>" ]
 license = "MIT"
 description = "code gen provides macro for generating code on data access objects on table metadata"
-repository = "https://github.com/daogangtang/wuta"
-documentation = "https://docs.rs/wuta"
+repository = "https://github.com/daogangtang/wumn"
+documentation = "https://docs.rs/wumn"
 keywords = ["orm", "postgresql", "sqlite"]
 edition = "2018"
 
@@ -13,7 +13,7 @@ edition = "2018"
 syn = "0.11"
 quote = "0.3"
 
-[dependencies.wuta_dao]
+[dependencies.wumn_dao]
 #version = "0.1"
 path = "../dao"
 

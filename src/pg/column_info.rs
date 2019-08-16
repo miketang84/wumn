@@ -1,6 +1,6 @@
 use uuid::Uuid;
 use log::*;
-use wuta_dao;
+use wumn_dao;
 use crate::column::{
 	Capacity, 
 	ColumnConstraint, 

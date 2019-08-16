@@ -1,11 +1,11 @@
 //! 
-//! Wuta is a thin abstract ORM over SQL and Rust types.
+//! Wumn is a thin abstract ORM over SQL and Rust types.
 //!
 //! ### Selecting records
 //!
 //! ```rust
 //! #[macro_use]
-//! use wuta::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
+//! use wumn::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
 //! 
 //! #[derive(Debug, FromDao, ToColumnNames, ToTableName)]
 //! struct Actor {
@@ -14,7 +14,7 @@
 //! }
 //! 
 //! fn main(){
-//!     let db_url = "postgres://postgres:p0stgr3s@localhost/wutang";
+//!     let db_url = "postgres://postgres:p0stgr3s@localhost/wumn";
 //!     let mut dbm = DbManager::new();
 //!     let em = dbm.em(db_url).unwrap();
 //!     let sql = "SELECT * FROM actor LIMIT 10";
@@ -30,7 +30,7 @@
 //! ### Inserting and displaying the inserted records
 //!
 //! ```rust
-//! use wuta::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
+//! use wumn::{ToColumnNames, ToTableName, FromDao, ToDao, DbError, DbManager};
 //! use chrono::{offset::Utc, DateTime, NaiveDate};
 //!
 //!   fn main() {
@@ -54,7 +54,7 @@
 //!           }
 //!       }
 //!
-//!       let db_url = "postgres://postgres:p0stgr3s@localhost/wutang";
+//!       let db_url = "postgres://postgres:p0stgr3s@localhost/wumn";
 //!       let mut dbm = DbManager::new();
 //!       let em = dbm.em(db_url).unwrap();
 //!       let tom_cruise = for_insert::Actor {
@@ -85,7 +85,6 @@
 use cfg_if::cfg_if;
 
 cfg_if! {if #[cfg(feature = "with-postgres")]{
-extern crate openssl;
 extern crate postgres;
 #[macro_use]
 extern crate postgres_shared;
@@ -129,7 +128,7 @@ pub use codegen::{
     ToTableName,
 };
 
-pub use wuta_dao::{
+pub use wumn_dao::{
     ColumnName,
     Dao,
     Rows,
@@ -139,9 +138,9 @@ pub use wuta_dao::{
     Array,
 };
 
-/// Wrap the wuta_dao exports to avoid name conflict with the wuta_codegen
+/// Wrap the wumn_dao exports to avoid name conflict with the wumn_codegen
 pub mod dao {
-    pub use wuta_dao::{
+    pub use wumn_dao::{
         FromDao,
         ToColumnNames,
         ToDao,
@@ -149,9 +148,9 @@ pub mod dao {
     };
 }
 
-/// Wrap the wuta_codegen exports to avoid name conflict with the wuta_dao
+/// Wrap the wumn_codegen exports to avoid name conflict with the wumn_dao
 pub mod codegen {
-    pub use wuta_codegen::{
+    pub use wumn_codegen::{
         FromDao,
         ToColumnNames,
         ToDao,

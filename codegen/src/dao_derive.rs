@@ -25,9 +25,9 @@ pub fn impl_from_dao(ast: &syn::MacroInput) -> quote::Tokens {
         .collect();
 
     quote! {
-        impl wuta_dao::FromDao for  #name {
+        impl wumn_dao::FromDao for  #name {
 
-            fn from_dao(dao: &wuta_dao::Dao) -> Self {
+            fn from_dao(dao: &wumn_dao::Dao) -> Self {
                 #name {
                     #(#from_fields)*
                 }
@@ -61,10 +61,10 @@ pub fn impl_to_dao(ast: &syn::MacroInput) -> quote::Tokens {
         .collect();
 
     quote! {
-        impl wuta_dao::ToDao for  #name {
+        impl wumn_dao::ToDao for  #name {
 
-            fn to_dao(&self) -> wuta_dao::Dao {
-                let mut dao = wuta_dao::Dao::new();
+            fn to_dao(&self) -> wumn_dao::Dao {
+                let mut dao = wumn_dao::Dao::new();
                 #(#from_fields)*
                 dao
             }

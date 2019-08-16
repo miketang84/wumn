@@ -1,11 +1,11 @@
 [package]
-name = "wuta_dao"
+name = "wumn_dao"
 version = "0.1.0"
 authors = [ "Mike Tang <daogangtang.gmail.com>", "Jovansonlee Cesar <ivanceras@gmail.com>" ]
 license = "MIT"
 description = "Dao provides a flexible way to access data from the database"
-repository = "https://github.com/daogangtang/wuta"
-documentation = "https://docs.rs/wuta"
+repository = "https://github.com/daogangtang/wumn"
+documentation = "https://docs.rs/wumn"
 keywords = ["orm", "postgresql", "sqlite"]
 edition = "2018"
 

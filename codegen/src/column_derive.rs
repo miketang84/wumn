@@ -21,7 +21,7 @@ pub fn impl_to_column_names(ast: &syn::MacroInput) -> quote::Tokens {
         .iter()
         .map(|&(field, _ty)| {
             quote! {
-                wuta_dao::ColumnName {
+                wumn_dao::ColumnName {
                     name: stringify!(#field).into(),
                     table: Some(stringify!(#name).to_lowercase().into()),
                     alias: None,
@@ -31,9 +31,9 @@ pub fn impl_to_column_names(ast: &syn::MacroInput) -> quote::Tokens {
         .collect();
 
     quote! {
-        impl wuta_dao::ToColumnNames for  #name {
+        impl wumn_dao::ToColumnNames for  #name {
 
-            fn to_column_names() -> Vec<wuta_dao::ColumnName> {
+            fn to_column_names() -> Vec<wumn_dao::ColumnName> {
                 vec![
                     #(#from_fields)*
                 ]
