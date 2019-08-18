@@ -1,4 +1,4 @@
-## Wuta
+## Wumn
 
 Wumn is a thin abstract ORM over SQL and Rust types. 
 
