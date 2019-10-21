@@ -310,7 +310,7 @@ impl EntityManager {
     pub fn execute_sql_with_return<'a, R>(
         &self,
         sql: &str,
-        params: &[&'a ToValue],
+        params: &[&'a dyn ToValue],
     ) -> Result<Vec<R>, DbError>
     where
         R: FromDao,
@@ -324,7 +324,7 @@ impl EntityManager {
     pub fn execute_sql_with_one_return<'a, R>(
         &self,
         sql: &str,
-        params: &[&'a ToValue],
+        params: &[&'a dyn ToValue],
     ) -> Result<R, DbError>
     where
         R: FromDao,
@@ -343,7 +343,7 @@ impl EntityManager {
     pub fn execute_sql_with_maybe_one_return<'a, R>(
         &self,
         sql: &str,
-        params: &[&'a ToValue],
+        params: &[&'a dyn ToValue],
     ) -> Result<Option<R>, DbError>
     where
         R: FromDao,
